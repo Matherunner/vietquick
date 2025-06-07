@@ -54,7 +54,7 @@ const createWindow = () => {
   view1.webContents.loadURL(
     "https://tratu.coviet.vn/hoc-tieng-anh/tu-dien/lac-viet/V-A/ra.html"
   );
-  view1.webContents.on("did-finish-load", async () => {
+  view1.webContents.on("dom-ready", async () => {
     await view1.webContents.executeJavaScript(
       `
       (() => {
@@ -70,7 +70,7 @@ const createWindow = () => {
   const view2 = new WebContentsView();
   win.contentView.addChildView(view2);
   view2.webContents.loadURL("https://vdict.com/ra,2,0,0.html");
-  view2.webContents.on("did-finish-load", async () => {
+  view2.webContents.on("dom-ready", async () => {
     await view2.webContents.executeJavaScript(
       `
       (() => {
@@ -88,7 +88,7 @@ const createWindow = () => {
   const view3 = new WebContentsView();
   win.contentView.addChildView(view3);
   view3.webContents.loadURL("https://en.wiktionary.org/wiki/ra#Vietnamese");
-  view3.webContents.on("did-finish-load", async () => {
+  view3.webContents.on("dom-ready", async () => {
     await view3.webContents.executeJavaScript(
       `
       (() => {

@@ -6,4 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
     }
   });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.key.toLowerCase() === "l") {
+      inputSearch.focus();
+      e.preventDefault();
+    }
+  });
 });
