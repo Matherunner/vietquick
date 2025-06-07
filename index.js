@@ -2,7 +2,7 @@ const { app, BrowserWindow, WebContentsView, ipcMain } = require("electron");
 const path = require("node:path");
 
 const setBounds = (size, views) => {
-  const topHeight = 50;
+  const topHeight = 70;
   const columnWidth = size[0] / 3;
   const columnHeight = size[1] - topHeight;
   views[0].setBounds({
