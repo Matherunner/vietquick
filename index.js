@@ -5,7 +5,27 @@ const createWindow = () => {
     width: 800,
     height: 600,
   });
-  win.loadFile("public/index.html");
+  win.on("resize", () => {
+    const columnWidth = win.getSize()[0] / 3;
+    view1.setBounds({
+      x: 0,
+      y: 0,
+      width: columnWidth,
+      height: win.getSize()[1],
+    });
+    view2.setBounds({
+      x: columnWidth,
+      y: 0,
+      width: columnWidth,
+      height: win.getSize()[1],
+    });
+    view3.setBounds({
+      x: columnWidth * 2,
+      y: 0,
+      width: columnWidth,
+      height: win.getSize()[1],
+    });
+  });
 
   const view1 = new WebContentsView();
   win.contentView.addChildView(view1);
