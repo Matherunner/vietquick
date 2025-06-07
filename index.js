@@ -1,4 +1,5 @@
-const { app, BrowserWindow, WebContentsView } = require("electron");
+const { app, BrowserWindow, WebContentsView, ipcMain } = require("electron");
+const path = require("node:path");
 
 const setBounds = (size, views) => {
   const topHeight = 50;
@@ -25,9 +26,22 @@ const setBounds = (size, views) => {
 };
 
 const createWindow = () => {
+  ipcMain.handle("searchTerm", (event, term) => {
+    view1.webContents.loadURL(
+      `https://tratu.coviet.vn/hoc-tieng-anh/tu-dien/lac-viet/V-A/${term}.html`
+    );
+    view2.webContents.loadURL(`https://vdict.com/${term},2,0,0.html`);
+    view3.webContents.loadURL(
+      `https://en.wiktionary.org/wiki/${term}#Vietnamese`
+    );
+  });
+
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
   win.loadFile("public/index.html");
   win.removeMenu();
