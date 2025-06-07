@@ -1,30 +1,38 @@
 const { app, BrowserWindow, WebContentsView } = require("electron");
 
+const setBounds = (size, views) => {
+  const topHeight = 50;
+  const columnWidth = size[0] / 3;
+  const columnHeight = size[1] - topHeight;
+  views[0].setBounds({
+    x: 0,
+    y: topHeight,
+    width: columnWidth,
+    height: columnHeight,
+  });
+  views[1].setBounds({
+    x: columnWidth,
+    y: topHeight,
+    width: columnWidth,
+    height: columnHeight,
+  });
+  views[2].setBounds({
+    x: columnWidth * 2,
+    y: topHeight,
+    width: columnWidth,
+    height: columnHeight,
+  });
+};
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
   });
+  win.loadFile("public/index.html");
+  win.removeMenu();
   win.on("resize", () => {
-    const columnWidth = win.getSize()[0] / 3;
-    view1.setBounds({
-      x: 0,
-      y: 0,
-      width: columnWidth,
-      height: win.getSize()[1],
-    });
-    view2.setBounds({
-      x: columnWidth,
-      y: 0,
-      width: columnWidth,
-      height: win.getSize()[1],
-    });
-    view3.setBounds({
-      x: columnWidth * 2,
-      y: 0,
-      width: columnWidth,
-      height: win.getSize()[1],
-    });
+    setBounds(win.getContentSize(), [view1, view2, view3]);
   });
 
   const view1 = new WebContentsView();
@@ -44,7 +52,6 @@ const createWindow = () => {
       `
     );
   });
-  view1.setBounds({ x: 0, y: 0, width: 400, height: 400 });
 
   const view2 = new WebContentsView();
   win.contentView.addChildView(view2);
@@ -63,7 +70,6 @@ const createWindow = () => {
       `
     );
   });
-  view2.setBounds({ x: 400, y: 0, width: 400, height: 400 });
 
   const view3 = new WebContentsView();
   win.contentView.addChildView(view3);
@@ -100,7 +106,8 @@ const createWindow = () => {
       `
     );
   });
-  view3.setBounds({ x: 800, y: 0, width: 400, height: 400 });
+
+  setBounds(win.getContentSize(), [view1, view2, view3]);
 };
 
 app.whenReady().then(() => {
