@@ -25,6 +25,11 @@ const setBounds = (size, views) => {
   });
 };
 
+const focusInput = (win) => {
+  win.webContents.focus();
+  win.webContents.send("finishLoad");
+};
+
 const createWindow = () => {
   ipcMain.handle("searchTerm", (event, term) => {
     view1.webContents.loadURL(
@@ -54,9 +59,10 @@ const createWindow = () => {
   view1.webContents.loadURL(
     "https://tratu.coviet.vn/hoc-tieng-anh/tu-dien/lac-viet/V-A/ra.html"
   );
-  view1.webContents.on("dom-ready", async () => {
-    await view1.webContents.executeJavaScript(
-      `
+  view1.webContents
+    .on("dom-ready", async () => {
+      await view1.webContents.executeJavaScript(
+        `
       (() => {
         const content = document.getElementById('divContent')
         const body = document.getElementsByTagName('body')[0]
@@ -64,15 +70,19 @@ const createWindow = () => {
         body.appendChild(content)
       })()
       `
-    );
-  });
+      );
+    })
+    .on("did-finish-load", () => {
+      focusInput(win);
+    });
 
   const view2 = new WebContentsView();
   win.contentView.addChildView(view2);
   view2.webContents.loadURL("https://vdict.com/ra,2,0,0.html");
-  view2.webContents.on("dom-ready", async () => {
-    await view2.webContents.executeJavaScript(
-      `
+  view2.webContents
+    .on("dom-ready", async () => {
+      await view2.webContents.executeJavaScript(
+        `
       (() => {
         const audioBtn = document.getElementsByClassName('audio-player')[0]
         const content = document.getElementById("friendlyDefinition")
@@ -82,15 +92,19 @@ const createWindow = () => {
         body.appendChild(content)
       })()
       `
-    );
-  });
+      );
+    })
+    .on("did-finish-load", () => {
+      focusInput(win);
+    });
 
   const view3 = new WebContentsView();
   win.contentView.addChildView(view3);
   view3.webContents.loadURL("https://en.wiktionary.org/wiki/ra#Vietnamese");
-  view3.webContents.on("dom-ready", async () => {
-    await view3.webContents.executeJavaScript(
-      `
+  view3.webContents
+    .on("dom-ready", async () => {
+      await view3.webContents.executeJavaScript(
+        `
       (() => {
         const inner = document.getElementById('mw-content-text').firstChild
 
@@ -118,8 +132,11 @@ const createWindow = () => {
         window.scrollTo(0, 0)
       })()
       `
-    );
-  });
+      );
+    })
+    .on("did-finish-load", () => {
+      focusInput(win);
+    });
 
   setBounds(win.getContentSize(), [view1, view2, view3]);
 };

@@ -13,4 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
     }
   });
+
+  window.mainAPI.onFinishLoad(() => {
+    inputSearch.focus();
+  });
 });
