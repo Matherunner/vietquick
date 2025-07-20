@@ -33,9 +33,7 @@ const focusInput = (win) => {
 const createWindow = () => {
   ipcMain.handle("searchTerm", (event, term) => {
     view1.webContents.loadURL(
-      `https://vtudien.com/viet-anh/dictionary/nghia-cua-tu-${encodeURIComponent(
-        term
-      )}`
+      `https://tracau.vn/?s=${encodeURIComponent(term)}`
     );
     view2.webContents.loadURL(
       `https://vtudien.com/viet-trung/dictionary/nghia-cua-tu-${encodeURIComponent(
