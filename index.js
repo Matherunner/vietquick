@@ -62,15 +62,13 @@ const createWindow = () => {
 
   const view1 = new WebContentsView();
   win.contentView.addChildView(view1);
-  view1.webContents.loadURL(
-    "https://vtudien.com/viet-anh/dictionary/nghia-cua-tu-an%20to%C3%A0n"
-  );
+  view1.webContents.loadURL("https://tracau.vn/?s=an%20to%C3%A0n");
   view1.webContents
     .on("dom-ready", async () => {
       await view1.webContents.executeJavaScript(
         `
       (() => {
-        const content = document.getElementById('idnghia')
+        const content = document.getElementById('ve')
         const body = document.getElementsByTagName('body')[0]
         body.innerHTML = ''
         body.appendChild(content)
