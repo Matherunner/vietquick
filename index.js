@@ -92,6 +92,11 @@ const createWindow = () => {
         const body = document.getElementsByTagName('body')[0]
         body.innerHTML = ''
         body.appendChild(content)
+
+        const elems = document.querySelectorAll('[id^="aswift_"]')
+        for (const elem of elems) {
+          elem.remove()
+        }
       })()
       `
       );
