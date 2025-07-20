@@ -33,11 +33,17 @@ const focusInput = (win) => {
 const createWindow = () => {
   ipcMain.handle("searchTerm", (event, term) => {
     view1.webContents.loadURL(
-      `https://tratu.coviet.vn/hoc-tieng-anh/tu-dien/lac-viet/V-A/${term}.html`
+      `https://vtudien.com/viet-anh/dictionary/nghia-cua-tu-${encodeURIComponent(
+        term
+      )}`
     );
-    view2.webContents.loadURL(`https://vdict.com/${term},2,0,0.html`);
+    view2.webContents.loadURL(
+      `https://vtudien.com/viet-trung/dictionary/nghia-cua-tu-${encodeURIComponent(
+        term
+      )}`
+    );
     view3.webContents.loadURL(
-      `https://en.wiktionary.org/wiki/${term}#Vietnamese`
+      `https://en.wiktionary.org/wiki/${encodeURIComponent(term)}#Vietnamese`
     );
   });
 
@@ -57,14 +63,14 @@ const createWindow = () => {
   const view1 = new WebContentsView();
   win.contentView.addChildView(view1);
   view1.webContents.loadURL(
-    "https://tratu.coviet.vn/hoc-tieng-anh/tu-dien/lac-viet/V-A/ra.html"
+    "https://vtudien.com/viet-anh/dictionary/nghia-cua-tu-an%20to%C3%A0n"
   );
   view1.webContents
     .on("dom-ready", async () => {
       await view1.webContents.executeJavaScript(
         `
       (() => {
-        const content = document.getElementById('divContent')
+        const content = document.getElementById('idnghia')
         const body = document.getElementsByTagName('body')[0]
         body.innerHTML = ''
         body.appendChild(content)
@@ -78,17 +84,17 @@ const createWindow = () => {
 
   const view2 = new WebContentsView();
   win.contentView.addChildView(view2);
-  view2.webContents.loadURL("https://vdict.com/ra,2,0,0.html");
+  view2.webContents.loadURL(
+    "https://vtudien.com/viet-trung/dictionary/nghia-cua-tu-an%20to%C3%A0n"
+  );
   view2.webContents
     .on("dom-ready", async () => {
       await view2.webContents.executeJavaScript(
         `
       (() => {
-        const audioBtn = document.getElementsByClassName('audio-player')[0]
-        const content = document.getElementById("friendlyDefinition")
+        const content = document.getElementById('idnghia')
         const body = document.getElementsByTagName('body')[0]
         body.innerHTML = ''
-        body.appendChild(audioBtn)
         body.appendChild(content)
       })()
       `
@@ -100,7 +106,7 @@ const createWindow = () => {
 
   const view3 = new WebContentsView();
   win.contentView.addChildView(view3);
-  view3.webContents.loadURL("https://en.wiktionary.org/wiki/ra#Vietnamese");
+  view3.webContents.loadURL("https://en.wiktionary.org/wiki/an_to%C3%A0n");
   view3.webContents
     .on("dom-ready", async () => {
       await view3.webContents.executeJavaScript(
